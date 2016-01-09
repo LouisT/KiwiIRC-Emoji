@@ -51,10 +51,6 @@ fs.readdir('./twemoji/16x16/', function (err, files) {
          emojis.push(chunking.splice(0,100));
    }
 
-   if (fs.existsSync('./emoji-plugin.html')) {
-      fs.unlink('./emoji-plugin.html');
-   }
-
    var data = fs.readFileSync('./src/plugin.html').toString();
    var format = {
        baseurl: settings.baseurl,
