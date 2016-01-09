@@ -5,6 +5,8 @@ This plugin uses [Twemoji]!
 [Twemoji] has a CDN hosted version, provided by MaxCDN.
 Therefore you can run [emoji-plugin.cdn.html](emoji-plugin.cdn.html) without any changes.
 
+![Example](https://github.com/LouisT/KiwiIRC-Emoji/blob/master/assets/kiwiirc-emojis-plugin.gif)
+
 Usage
 -
 Place [emoji-plugin.cdn.html](emoji-plugin.cdn.html) in `/client/assets/plugins/` and edit `config.js` to include it in your plugins list.
