@@ -49,7 +49,7 @@
         padding: 5px;
         width: 273px;
         overflow-y: scroll;
-        max-height: 40%;
+        max-height: 23%;
         z-index: 1000;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -135,7 +135,7 @@ var emojis = {
         var control = kiwi.components.ControlInput();
         control.addPluginIcon($icon);
         kiwi.events.on('message:display', function (event, data) {
-            if (/^(action|privmsg|notice)$/i.test(data.message.type)) {
+            if (twemoji && /^(action|privmsg|notice)$/i.test(data.message.type)) {
                data.message.msg = twemoji.parse(data.message.msg, { size: '16x16' });
             }
         });

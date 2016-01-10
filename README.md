@@ -5,7 +5,7 @@ This plugin uses [Twemoji]! Would you prefer [EmojiOne]? Check out [KiwiIRC-Emoj
 [Twemoji] has a CDN hosted version, provided by MaxCDN.
 Therefore you can run [emoji-plugin.cdn.html](emoji-plugin.cdn.html) without any changes.
 
-![Example](https://github.com/LouisT/KiwiIRC-Emoji-Twemoji/blob/master/assets/kiwiirc-emojis-plugin.gif)
+![Example](https://github.com/LouisT/KiwiIRC-Emoji-Twemoji/blob/master/assets/KiwiIRC-Emoji-Twemoji.gif)
 
 Usage
 -
