@@ -127,7 +127,7 @@ var emojis = {
             var $inp = $('.controlbox .inp'),
                 txt = document.createElement("textarea");
             txt.innerHTML = $(this).data('text').split('-').map(function(v) { return '&#x'+v+';'; }).join('');
-            $inp.val($inp.val() + txt.value + ' ');
+            $inp.val($inp.val()+' '+txt.value);
         });
         $(document).on('click', function() {
             $list.hide();
