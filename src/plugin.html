@@ -49,7 +49,7 @@
         padding: 5px;
         width: 273px;
         overflow-y: scroll;
-        max-height: 23%;
+        max-height: 15%;
         z-index: 1000;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -64,10 +64,14 @@
         margin-right: 3px;
         margin-left: 3px;
     }
+    #kiwi .msg img.emoji {
+        width:16px;
+        height: auto;
+    }
 </style>
 <script type="text/html" id="tmpl_emojilist">
  <div class="emojiPreview">
-   <img class="emojiPreImg" src="{{:baseurl|https://twemoji.maxcdn.com}}/36x36/1f600.png" />
+   <img class="emojiPreImg" src="{{:baseurl|https://twemoji.maxcdn.com}}/{{:size|72x72}}/1f600.png" />
  </div>
  <div class="emojiMenu">{{:emojiToggles|NOT FOUND}}</div>
  <div class="emojiList">{{:emojiTabs|NOT FOUND}}</div>
@@ -78,7 +82,7 @@ var emojis = {
 };
 (function() {
         var $list = $($('#tmpl_emojilist').html()),
-            $icon = $('<a><img src="{{:baseurl|https://twemoji.maxcdn.com}}/16x16/1f600.png" alt="smile" style="width:23px;height:23px;" /></a>');
+            $icon = $('<a><img src="{{:baseurl|https://twemoji.maxcdn.com}}/{{:size|72x72}}/1f600.png" alt="smile" style="width:23px;height:23px;" /></a>');
         $icon.on('click', function(event) {
             event.stopPropagation();
             $list.appendTo($('#kiwi')).show().css({bottom: ($('.controlbox').outerHeight())+'px', right: 0});
@@ -97,6 +101,7 @@ var emojis = {
                $epreimg.attr('src',$epreimg.attr('src')).attr('defimg',$epreimg.attr('src'));
                $('.emojiToggle').click(function (event) {
                    event.stopPropagation();
+                   $('.emojiList').scrollTop(0);
                    $('.emojiToggle').css('color','#666');
                    $(this).css('color','white');
                    var $target = $(this).attr('target'),
@@ -105,8 +110,10 @@ var emojis = {
                    $sel.show();
                    if (!$sel.attr('shown')) {
                       $sel.attr('shown','true');
+                      var pxl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                       _.each(emojis[$target],function (emoji) {
-                          $sel.append('<img src="{{:baseurl|https://twemoji.maxcdn.com}}/36x36/'+emoji+'.png" alt="e" data-text="'+emoji+'" class="emoji" />');
+                          var src = "{{:baseurl|https://twemoji.maxcdn.com}}/{{:size|72x72}}/"+emoji+".png";
+                          $sel.append('<img src="'+pxl+'" data-src="'+src+'" alt="e" data-text="'+emoji+'" class="emoji" />');
                       });
                       $('.emoji').hover(function () {
                           $('.emojiPreImg').attr('src',$(this).attr('src'));
@@ -114,6 +121,7 @@ var emojis = {
                           $('.emojiPreImg').attr('src',$('.emojiPreImg').attr('defimg'));
                       });
                    }
+                   $('.emojiList').scroll();
                    positionEmoji();
                });
                $('.emojiInit').trigger('click');
@@ -121,13 +129,14 @@ var emojis = {
             $('.emojiList, .emojiPreview, .emojiMenu').on('click',function (event) {
                 event.stopPropagation();
             });
+            SimpleLazyLoader($('.emojiList'));
         });
         $list.on('click', '.emoji', function(event) {
             event.stopPropagation();
             var $inp = $('.controlbox .inp'),
                 txt = document.createElement("textarea");
             txt.innerHTML = $(this).data('text').split('-').map(function(v) { return '&#x'+v+';'; }).join('');
-            $inp.val($inp.val()+' '+txt.value);
+            $inp.val($inp.val() + txt.value + ' ');
         });
         $(document).on('click', function() {
             $list.hide();
@@ -136,8 +145,34 @@ var emojis = {
         control.addPluginIcon($icon);
         kiwi.events.on('message:display', function (event, data) {
             if (twemoji && /^(action|privmsg|notice)$/i.test(data.message.type)) {
-               data.message.msg = twemoji.parse(data.message.msg, { size: '16x16' });
+               data.message.msg = twemoji.parse(data.message.msg, { size: '{{:size|72x72}}' });
             }
         });
+        function SimpleLazyLoader ($elm) {
+                 if (!$elm.data('LazyLoaded')) {
+                    $elm.data('LazyLoaded', 'true');
+                    function inView (elm) {
+                             var rect = elm.getBoundingClientRect();
+                             return (
+                                    rect.top >= 0 && rect.left >= 0 &&
+                                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                             );
+                    }
+                    function LazyLoader () {
+                             var images = $('.emojiList img[data-src]:visible'), item;
+                             if (images.length >= 1) {
+                                _.each(images, function (item) {
+                                    if (inView(item)) {
+                                       item.setAttribute('src', item.getAttribute('data-src'));
+                                       item.removeAttribute('data-src');
+                                    }
+                                });
+                             }
+                    }
+                    LazyLoader();
+                    $elm.scroll(LazyLoader);
+                 }
+        }
 })();
 </script>

@@ -8,7 +8,14 @@ var fs = require('fs'),
     path = require('path'),
     args = process.argv.slice(2);
 
-if (!fs.existsSync('./twemoji/16x16/')) {
+var settings = {
+    overwrite: false,
+    baseurl: '//twemoji.maxcdn.com/2',
+    local: false,
+    size: '72x72', // Twemoji 2.0 only supports 72x72.
+};
+
+if (!fs.existsSync('./twemoji/2/'+settings.size+'/')) {
    console.log('Twemoji is missing! Install with git and run again:\n\n   git clone https://github.com/twitter/twemoji.git');
    process.exit(1);
 }
@@ -16,11 +23,6 @@ if (!fs.existsSync('./twemoji/16x16/')) {
 /*
   Parse argv for settings.
 */
-var settings = {
-    overwrite: false,
-    baseurl: '//twemoji.maxcdn.com',
-    local: false
-};
 args.forEach(function (arg) {
     var match = null;
     if ((match = arg.match(/--baseurl=(.+)/i))) {
@@ -37,7 +39,7 @@ if (settings.local) {
    console.log('\nPlease copy "./twemoji/" to: /client/assets/twemoji/');
 }
 
-fs.readdir('./twemoji/16x16/', function (err, files) {
+fs.readdir('./twemoji/2/'+settings.size+'/', function (err, files) {
    if (err) {
       throw err;
    }
@@ -48,11 +50,12 @@ fs.readdir('./twemoji/16x16/', function (err, files) {
    var emojis = [],
        chunking = mapped.slice(0);
    while (chunking.length > 0) {
-         emojis.push(chunking.splice(0,100));
+         emojis.push(chunking.splice(0,200));
    }
 
    var data = fs.readFileSync('./src/plugin.html').toString();
    var format = {
+       size: settings.size,
        baseurl: settings.baseurl,
        buildmode: (settings.local?'Local Install':'CDN Install'),
        date: new Date(),
