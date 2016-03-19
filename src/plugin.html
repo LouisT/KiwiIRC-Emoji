@@ -65,7 +65,7 @@
         margin-left: 3px;
     }
     #kiwi .msg img.emoji {
-        width:16px;
+        width: 16px;
         height: auto;
     }
 </style>
@@ -82,7 +82,7 @@ var emojis = {
 };
 (function() {
         var $list = $($('#tmpl_emojilist').html()),
-            $icon = $('<a><img src="{{:baseurl|https://twemoji.maxcdn.com}}/{{:size|72x72}}/1f600.png" alt="smile" style="width:23px;height:23px;" /></a>');
+            $icon = $('<a><img src="{{:baseurl|https://twemoji.maxcdn.com}}/{{:size|72x72}}/1f600.png" alt="smile" style="width:1em;height:1em;" /></a>');
         $icon.on('click', function(event) {
             event.stopPropagation();
             $list.appendTo($('#kiwi')).show().css({bottom: ($('.controlbox').outerHeight())+'px', right: 0});

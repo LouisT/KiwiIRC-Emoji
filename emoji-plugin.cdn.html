@@ -1,6 +1,6 @@
 <!--
 
-   [CDN Install] Plugin updated Sun Mar 13 2016 19:02:19 GMT-0400 (EDT) with 1661 emojis.
+   [CDN Install] Plugin updated Sat Mar 19 2016 16:24:04 GMT-0400 (EDT) with 1661 emojis.
 
 -->
 <script src="//twemoji.maxcdn.com/2/twemoji.min.js"></script>
@@ -65,7 +65,7 @@
         margin-left: 3px;
     }
     #kiwi .msg img.emoji {
-        width:16px;
+        width: 16px;
         height: auto;
     }
 </style>
@@ -110,7 +110,7 @@ var emojis = {
 };
 (function() {
         var $list = $($('#tmpl_emojilist').html()),
-            $icon = $('<a><img src="//twemoji.maxcdn.com/2/72x72/1f600.png" alt="smile" style="width:23px;height:23px;" /></a>');
+            $icon = $('<a><img src="//twemoji.maxcdn.com/2/72x72/1f600.png" alt="smile" style="width:1em;height:1em;" /></a>');
         $icon.on('click', function(event) {
             event.stopPropagation();
             $list.appendTo($('#kiwi')).show().css({bottom: ($('.controlbox').outerHeight())+'px', right: 0});
